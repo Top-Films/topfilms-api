@@ -2,6 +2,22 @@ image:
   repository: maxmorhardt/topfilms-primary-api
   tag: '1.0.0'
   pullPolicy: Always
+  env:
+    - name: DB_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: primary-api-env
+          key: dbUsername
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: primary-api-env
+          key: dbPassword
+    - name: DATASOURCE_URL
+      valueFrom:
+        secretKeyRef:
+          name: primary-api-env
+          key: datasourceUrl
 
 service:
   type: ClusterIP
@@ -11,17 +27,15 @@ service:
 ingress:
   enabled: true
   className: nginx
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"
   hosts:
-    - host: api.topfilms.co
+    - host: api.topfilms.io
       paths:
         - path: /
           pathType: Prefix
   tls: 
-   - secretName: primary-api-cert
+   - secretName: api.topfilms.io-tls
      hosts:
-       - api.topfilms.co
+       - api.topfilms.io
 
 resources:
   limits:

@@ -1,4 +1,4 @@
-FROM amazoncorretto:21-alpine3.18
+FROM --platform=linux/arm64  amazoncorretto:21-alpine3.18
 
 USER root
 
@@ -12,4 +12,4 @@ RUN chown -R 1000:1000 /app
 
 USER 1000
 
-CMD ["java", "-Dspring.profiles.active=prod", "-Dserver.port=8080", "-jar", "topfilms.jar"]
+CMD ["java", "-Dspring-boot.run.profiles=prod", "-Dserver.port=8080", "-jar", "topfilms.jar"]
