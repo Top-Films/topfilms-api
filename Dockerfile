@@ -12,4 +12,11 @@ RUN chown -R 1000:1000 /app
 
 USER 1000
 
-CMD ["java", "-Dspring.profiles.active=prod", "-Dserver.port=8080", "-jar", "topfilms.jar"]
+CMD ["java", \
+    "-Dspring.profiles.active=prod", \
+    "-Dserver.port=8080", \
+    "-Dspring.datasource.url=$DATASOURCE_URL", \
+    "-Dspring.datasource.username=$DB_USERNAME", \
+    "-Dspring.datasource.username=$DB_PASSWORD", \
+    "-jar", \
+    "topfilms.jar"]
