@@ -8,7 +8,7 @@
 		<version>3.2.4</version>
 		<relativePath/>
 	</parent>
-	<groupId>co.topfilms</groupId>
+	<groupId>io.topfilms</groupId>
 	<artifactId>topfilms-api</artifactId>
 	<version>1.0.0</version>
 	<name>topfilms-api</name>
