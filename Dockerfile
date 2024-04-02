@@ -1,4 +1,8 @@
-FROM --platform=linux/arm64  amazoncorretto:21-alpine3.18
+FROM --platform=linux/arm64 amazoncorretto:21-alpine3.18
+
+ENV DATASOURCE_URL=${DATASOURCE_URL}
+ENV DB_USERNAME=${DB_USERNAME}
+ENV DB_PASSWORD=${DB_PASSWORD}
 
 USER root
 
@@ -17,6 +21,6 @@ CMD ["java", \
     "-Dserver.port=8080", \
     "-Dspring.datasource.url=$DATASOURCE_URL", \
     "-Dspring.datasource.username=$DB_USERNAME", \
-    "-Dspring.datasource.username=$DB_PASSWORD", \
+    "-Dspring.datasource.password=$DB_PASSWORD", \
     "-jar", \
     "topfilms.jar"]
