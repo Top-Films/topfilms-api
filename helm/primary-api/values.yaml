@@ -3,17 +3,17 @@ image:
   tag: '1.0.0'
   pullPolicy: Always
   env:
-    - name: DB_USERNAME
+    - name: spring.datasource.url
       valueFrom:
         secretKeyRef:
           name: primary-api-env
           key: dbUsername
-    - name: DB_PASSWORD
+    - name: spring.datasource.username
       valueFrom:
         secretKeyRef:
           name: primary-api-env
           key: dbPassword
-    - name: DATASOURCE_URL
+    - name: spring.datasource.password
       valueFrom:
         secretKeyRef:
           name: primary-api-env

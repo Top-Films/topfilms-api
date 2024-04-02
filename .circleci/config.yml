@@ -51,7 +51,7 @@ jobs:
           paths: '*'
 
       - store_artifacts:
-          path: target/*.jar
+          path: target
           destination: .
 
   docker_artifact_build_push:
