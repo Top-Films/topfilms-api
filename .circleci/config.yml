@@ -52,7 +52,7 @@ jobs:
 
       - store_artifacts:
           path: target
-          destination: $APP_NAME-$APP_VERSION
+          destination: .
 
   docker_artifact_build_push:
     executor: base    
