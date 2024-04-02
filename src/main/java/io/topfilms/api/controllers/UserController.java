@@ -1,7 +1,7 @@
-package co.topfilms.api.controllers;
+package io.topfilms.api.controllers;
 
-import co.topfilms.api.entities.User;
-import co.topfilms.api.repositories.UserRepository;
+import io.topfilms.api.entities.User;
+import io.topfilms.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;

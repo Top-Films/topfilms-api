@@ -1,6 +1,6 @@
-package co.topfilms.api.repositories;
+package io.topfilms.api.repositories;
 
-import co.topfilms.api.entities.User;
+import io.topfilms.api.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

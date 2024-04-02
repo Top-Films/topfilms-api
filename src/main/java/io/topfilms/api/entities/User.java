@@ -1,4 +1,4 @@
-package co.topfilms.api.entities;
+package io.topfilms.api.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
