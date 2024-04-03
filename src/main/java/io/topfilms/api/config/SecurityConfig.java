@@ -19,16 +19,32 @@ public class SecurityConfig {
     @Value("${topfilms.frontend.url}")
     private String frontendUrl;
 
+    @Value("${topfilms.disable.oauth2}")
+    private boolean disableOAuth;
+
     @Value("${spring.security.oauth2.resourceserver.jwk-set-uri}")
     private String jwkUri;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        if (disableOAuth) {
+            return http
+                    .csrf(AbstractHttpConfigurer::disable)
+                    .cors(cors -> cors.configurationSource(corsConfig()))
+                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
+                    )
+                    .oauth2ResourceServer(oauth -> oauth
+                            .jwt(jwt -> jwt.jwkSetUri(jwkUri))
+                    )
+                    .build();
+        }
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfig()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated()
+                )
                 .oauth2ResourceServer(oauth -> oauth
                         .jwt(jwt -> jwt.jwkSetUri(jwkUri))
                 )
