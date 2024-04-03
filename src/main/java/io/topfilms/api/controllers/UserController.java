@@ -10,6 +10,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @QueryMapping
-    public User userById(UUID id) {
+    public Optional<User> userById(@Argument UUID id) {
         return userService.findById(id);
     }
 

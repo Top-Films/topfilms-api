@@ -12,6 +12,8 @@ type User {
     username: String!
     firstName: String!
     lastName: String!
+    createdAt: String
+    modifiedAt: String
 }
 
 input UserInput {

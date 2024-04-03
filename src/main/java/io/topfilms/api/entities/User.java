@@ -4,7 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,6 +30,16 @@ public class User {
 
     @Column(name = "last_name", length = 64, nullable = false)
     private String lastName;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modified_at")
+    private LocalDateTime modifiedAt;
 
     public User() {}
 
@@ -65,6 +80,22 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 
     @Override

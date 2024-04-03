@@ -32,19 +32,14 @@ public class SecurityConfig {
                     .csrf(AbstractHttpConfigurer::disable)
                     .cors(cors -> cors.configurationSource(corsConfig()))
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                    .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
-                    )
-                    .oauth2ResourceServer(oauth -> oauth
-                            .jwt(jwt -> jwt.jwkSetUri(jwkUri))
-                    )
+                    .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                     .build();
         }
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfig()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth
                         .jwt(jwt -> jwt.jwkSetUri(jwkUri))
                 )
