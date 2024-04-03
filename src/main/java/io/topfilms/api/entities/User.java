@@ -27,6 +27,8 @@ public class User {
     @Column(name = "lastName", length = 64, nullable = false)
     private String lastName;
 
+    public User() {}
+
     public User(UUID id, String username, String firstName, String lastName) {
         this.id = id;
         this.username = username;
