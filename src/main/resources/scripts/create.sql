@@ -1,0 +1,6 @@
+CREATE TABLE USERS (
+    id UUID PRIMARY KEY,
+    username VARCHAR(64) NOT NULL,
+    firstName VARCHAR(64) NOT NULL,
+    lastName VARCHAR(64) NOT NULL,
+);
