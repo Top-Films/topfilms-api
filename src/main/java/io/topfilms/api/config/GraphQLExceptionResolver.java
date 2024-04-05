@@ -1,8 +1,9 @@
-package io.topfilms.api.exceptions;
+package io.topfilms.api.config;
 
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
+import io.topfilms.api.exceptions.TopFilmsException;
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.stereotype.Component;
 
