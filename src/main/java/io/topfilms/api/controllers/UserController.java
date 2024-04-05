@@ -30,8 +30,8 @@ public class UserController {
     }
 
     @MutationMapping
-    public User createUser(@Argument UserInput userInput) {
-        return userService.createUser(userInput);
+    public User createUser(@Argument UserInput input) {
+        return userService.createUser(input);
     }
 
 }
