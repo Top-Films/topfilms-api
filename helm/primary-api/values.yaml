@@ -21,14 +21,14 @@ image:
           key: dbPassword
   readinessProbe:
     path: /actuator/health
-    initialDelaySeconds: 60
+    initialDelaySeconds: 120
     periodSeconds: 30
     timeoutSeconds: 30
     failureThreshold: 5
     successThreshold: 1
   livenessProbe:
     path: /actuator/health
-    initialDelaySeconds: 60
+    initialDelaySeconds: 120
     periodSeconds: 30
     timeoutSeconds: 30
     failureThreshold: 5
@@ -54,7 +54,7 @@ ingress:
 
 resources:
   limits:
-    cpu: 400m
+    cpu: 600m
     memory: 512Mi
   requests:
     cpu: 200m
