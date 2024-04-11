@@ -20,14 +20,14 @@ image:
           name: primary-api-env
           key: dbPassword
   readinessProbe:
-    path: /actuator/health
+    path: /monitor/health
     initialDelaySeconds: 120
     periodSeconds: 30
     timeoutSeconds: 30
     failureThreshold: 5
     successThreshold: 1
   livenessProbe:
-    path: /actuator/health
+    path: /monitor/health
     initialDelaySeconds: 120
     periodSeconds: 30
     timeoutSeconds: 30
