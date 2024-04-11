@@ -2,6 +2,7 @@ image:
   repository: maxmorhardt/topfilms-primary-api
   tag: '1.0.0'
   pullPolicy: Always
+  replicas: 1
   env:
     - name: DATASOURCE_URL
       valueFrom:
@@ -18,6 +19,20 @@ image:
         secretKeyRef:
           name: primary-api-env
           key: dbPassword
+  readinessProbe:
+    path: /actuator/health
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 30
+    failureThreshold: 5
+    successThreshold: 1
+  livenessProbe:
+    path: /actuator/health
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 30
+    failureThreshold: 5
+    successThreshold: 1
 
 service:
   type: ClusterIP
@@ -42,5 +57,5 @@ resources:
     cpu: 400m
     memory: 512Mi
   requests:
-    cpu: 400m
-    memory: 512Mi
+    cpu: 200m
+    memory: 256Mi
