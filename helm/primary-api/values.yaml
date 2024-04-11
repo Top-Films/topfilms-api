@@ -22,14 +22,14 @@ image:
           key: dbPassword
   readinessProbe:
     path: /monitor/health
-    initialDelaySeconds: 120
+    initialDelaySeconds: 150
     periodSeconds: 30
     timeoutSeconds: 30
     failureThreshold: 5
     successThreshold: 1
   livenessProbe:
     path: /monitor/health
-    initialDelaySeconds: 120
+    initialDelaySeconds: 150
     periodSeconds: 30
     timeoutSeconds: 30
     failureThreshold: 5
@@ -58,7 +58,6 @@ hpa:
   minReplicas: 1
   maxReplicas: 3
   targetCPU: 50
-  targetMemory: 50
 
 resources:
   limits:
