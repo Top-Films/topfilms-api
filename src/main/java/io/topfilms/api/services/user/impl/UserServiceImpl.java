@@ -34,7 +34,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(UserInput userInput) {
         if (userRepository.existsById(userInput.getId())) {
-            throw new TopFilmsException("User already exists", ErrorType.BAD_REQUEST);
+            throw new TopFilmsException("User already exists. Please use your original login method.", ErrorType.BAD_REQUEST);
+        }
+
+        if (userRepository.existsByUsername(userInput.getUsername())) {
+            throw new TopFilmsException("Username '" + userInput.getUsername() + "' is taken. Please pick a different one.", ErrorType.BAD_REQUEST);
         }
 
         return userRepository.save(new User(
