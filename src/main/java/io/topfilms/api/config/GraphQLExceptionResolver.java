@@ -20,6 +20,7 @@ public class GraphQLExceptionResolver extends DataFetcherExceptionResolverAdapte
                     .location(env.getField().getSourceLocation())
                     .build();
         }
+
         return super.resolveToSingleError(ex, env);
     }
 

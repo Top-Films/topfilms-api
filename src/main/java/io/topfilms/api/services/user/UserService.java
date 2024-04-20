@@ -15,4 +15,6 @@ public interface UserService {
 
     User createUser(UserInput userInput);
 
+    Boolean deleteUser(UUID id);
+
 }

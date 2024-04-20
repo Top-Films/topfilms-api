@@ -34,9 +34,9 @@ public class UserController {
         return userService.createUser(input);
     }
 
-//    @MutationMapping
-//    public Boolean deleteUser(@Argument UUID id) {
-//        return userService.createUser(input);
-//    }
+    @MutationMapping
+    public Boolean deleteUser(@Argument UUID id) {
+        return userService.deleteUser(id);
+    }
 
 }
