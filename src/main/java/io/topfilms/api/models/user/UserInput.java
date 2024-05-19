@@ -1,4 +1,4 @@
-package io.topfilms.api.models;
+package io.topfilms.api.models.user;
 
 import java.util.Objects;
 import java.util.UUID;

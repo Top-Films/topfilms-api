@@ -1,7 +1,7 @@
 package io.topfilms.api.services.user;
 
 import io.topfilms.api.entities.User;
-import io.topfilms.api.models.UserInput;
+import io.topfilms.api.models.user.UserInput;
 
 import java.util.List;
 import java.util.Optional;

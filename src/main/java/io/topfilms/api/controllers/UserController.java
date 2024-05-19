@@ -1,7 +1,7 @@
 package io.topfilms.api.controllers;
 
 import io.topfilms.api.entities.User;
-import io.topfilms.api.models.UserInput;
+import io.topfilms.api.models.user.UserInput;
 import io.topfilms.api.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
