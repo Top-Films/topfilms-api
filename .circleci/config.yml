@@ -6,7 +6,7 @@ executors:
       - image: cimg/openjdk:21.0.2
     working_directory: ~/app
     environment:
-      APP_NAME: primary-api
+      APP_NAME: topfilms-api
       APP_VERSION: 0.0.<< pipeline.number >>
 
   base:
@@ -16,7 +16,7 @@ executors:
     resource_class: arm.medium
     environment:
       ORG_NAME: topfilms
-      APP_NAME: primary-api
+      APP_NAME: topfilms-api
       APP_VERSION: 0.0.<< pipeline.number >>
 
   helm:
@@ -24,7 +24,7 @@ executors:
       - image: cimg/deploy:2024.03.1
     working_directory: ~/app
     environment:
-      APP_NAME: primary-api
+      APP_NAME: topfilms-api
       APP_VERSION: 0.0.<< pipeline.number >>
       KUBECONFIG: /home/circleci/.kube/config
 

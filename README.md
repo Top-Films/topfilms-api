@@ -10,7 +10,7 @@
 ![Static Badge](https://img.shields.io/badge/license-Apache%202.0%20with%20Commons%20Clause-green)
 
 ## Overview
-The Top Films Primary API is the interface for all Top Films data outside of authentication and authorization.
+The Top Films API is the interface for all Top Films data outside of authentication and authorization.
 
 ## Prerequisites
 - Git
@@ -21,11 +21,11 @@ The Top Films Primary API is the interface for all Top Films data outside of aut
 
 1. Clone this repository:
 ```bash
-https://github.com/Top-Films/primary-api.git
+https://github.com/Top-Films/topfilms-api.git
 ```
 2. Navigate to the directory
 ```bash
-cd primary-api
+cd topfilms-api
 ```
 3. Add the DATASOURCE_URL, DB_USERNAME, and DB_PASSWORD environment variables to the run settings
 
