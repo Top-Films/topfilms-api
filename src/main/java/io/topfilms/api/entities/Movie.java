@@ -1,13 +1,10 @@
 package io.topfilms.api.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -24,14 +21,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "MOVIE_LIST_DETAILS")
+@Table(name = "MOVIE")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class MovieListDetail {
+public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,19 +46,18 @@ public class MovieListDetail {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
-    private LocalDateTime modifiedAt;
+    private LocalDateTime updatedAt;
 
-    @Column(name = "title", length = 64, nullable = false)
-    private String title;
+    @Column(name = "name", length = 128, nullable = false)
+    private String name;
 
-    @Column(name = "likes")
-    private Integer likes;
+    @Column(name = "director", length = 128, nullable = false)
+    private String director;
 
-    @Column(name = "views")
-    private Integer views;
+    @Column(name = "genre", length = 64, nullable = false)
+    private String genre;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "topic_id", referencedColumnName = "id")
-    private MovieListGenre topics;
+    @Column(name = "year", nullable = false)
+    private Integer year;
 
 }

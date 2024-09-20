@@ -21,14 +21,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "MOVIE_LIST_GENRE")
+@Table(name = "MOVIE_GENRE")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class MovieListGenre {
+public class MovieGenre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,7 +46,7 @@ public class MovieListGenre {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
-    private LocalDateTime modifiedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "name", length = 64, nullable = false)
     private String name;
