@@ -1,5 +1,5 @@
 apiVersion: v2
-name: topfilms-api
+name: topfilms-api-chart
 description: Chart for Top Films API
 type: application
 version: 1.0.0

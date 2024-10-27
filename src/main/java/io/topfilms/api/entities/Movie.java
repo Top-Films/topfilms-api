@@ -8,12 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -22,12 +17,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "MOVIE")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+@Data
 public class Movie {
 
     @Id
@@ -37,6 +27,9 @@ public class Movie {
 
     @Column(name = "created_by", nullable = false)
     private UUID createdBy;
+
+    @Column(name = "updated_by", nullable = false)
+    private UUID updatedBy;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -48,14 +41,14 @@ public class Movie {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "name", length = 128, nullable = false)
+    @Column(name = "name", length = 1024, nullable = false)
     private String name;
 
-    @Column(name = "director", length = 128, nullable = false)
+    @Column(name = "director", length = 512, nullable = false)
     private String director;
 
-    @Column(name = "genre", length = 64, nullable = false)
-    private String genre;
+    @Column(name = "movie_genre_id", length = 64, nullable = false)
+    private UUID movieGenreId;
 
     @Column(name = "year", nullable = false)
     private Integer year;

@@ -4,9 +4,8 @@
 </p>
 
 ![Spring Boot](https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)
-![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/2ZAeGbe6WDTLfg9j64XbkD/4851d60c-21be-4f9c-8c73-2a96c808a017/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/circleci/2ZAeGbe6WDTLfg9j64XbkD/4851d60c-21be-4f9c-8c73-2a96c808a017/tree/main)
 ![Static Badge](https://img.shields.io/badge/license-Apache%202.0%20with%20Commons%20Clause-green)
 
 ## Overview
