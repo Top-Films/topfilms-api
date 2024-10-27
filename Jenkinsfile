@@ -123,8 +123,8 @@ spec:
 
 							set +e
 
-							kubectl delete secret topfilms.io-tls --namespace topfilms
-							kubectl create secret tls topfilms.io-tls --cert=cert.pem --key=key.pem --namespace topfilms
+							kubectl delete secret api.topfilms.io-tls --namespace topfilms
+							kubectl create secret tls api.topfilms.io-tls --cert=cert.pem --key=key.pem --namespace topfilms
 
 							set -e
 						'''
