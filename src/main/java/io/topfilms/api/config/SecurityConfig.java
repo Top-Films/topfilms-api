@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,8 +32,8 @@ public class SecurityConfig {
     @Value("${topfilms.frontend.url}")
     private String frontendUrl;
 
-    @Value("${spring.security.oauth2.resourceserver.jwk-set-uri}")
-    private String jwkUri;
+    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private String jwtIssuer;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -46,7 +47,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth
-                        .jwt(jwt -> jwt.jwkSetUri(jwkUri))
+                        .jwt(jwt -> jwt.decoder(decoder()))
                 )
                 .build();
     }
@@ -65,6 +66,11 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
 
         return source;
+    }
+
+    @Bean
+    public NimbusJwtDecoder decoder() {
+        return NimbusJwtDecoder.withIssuerLocation(jwtIssuer).build();
     }
 
 }

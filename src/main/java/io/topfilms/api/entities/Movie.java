@@ -47,7 +47,7 @@ public class Movie {
     @Column(name = "director", length = 512, nullable = false)
     private String director;
 
-    @Column(name = "movie_genre_id", length = 64, nullable = false)
+    @Column(name = "movie_genre_id", nullable = false)
     private UUID movieGenreId;
 
     @Column(name = "year", nullable = false)
