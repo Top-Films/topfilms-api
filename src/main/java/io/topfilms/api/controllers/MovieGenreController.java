@@ -23,7 +23,7 @@ public class MovieGenreController {
 
     @GetMapping("/v1/movie-genres")
     public ResponseEntity<List<MovieGenre>> findAll(Authentication auth) {
-        LOG.info("Find all movie genres requested by {}", );
+        LOG.info("Find all movie genres requested by {}", auth.getName());
         return ResponseEntity.ok(service.findAll());
     }
 

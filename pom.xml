@@ -58,6 +58,12 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
+		<!--Prometheus-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
 		<!--Swagger UI-->
 		<dependency>
 			<groupId>org.springdoc</groupId>
