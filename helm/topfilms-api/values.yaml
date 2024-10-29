@@ -23,14 +23,14 @@ image:
           name: topfilms-api-credentials
           key: db-password
   readinessProbe:
-    path: /monitor/health
+    path: /actuator/health
     initialDelaySeconds: 60
     periodSeconds: 30
     timeoutSeconds: 30
     failureThreshold: 5
     successThreshold: 1
   livenessProbe:
-    path: /monitor/health
+    path: /actuator/health
     initialDelaySeconds: 60
     periodSeconds: 30
     timeoutSeconds: 30
