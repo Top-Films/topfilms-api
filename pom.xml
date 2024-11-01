@@ -64,6 +64,13 @@
 			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
 
+		<!--Loki-->
+		<dependency>
+			<groupId>com.github.loki4j</groupId>
+			<artifactId>loki-logback-appender</artifactId>
+			<version>1.5.2</version>
+		</dependency>
+
 		<!--Swagger UI-->
 		<dependency>
 			<groupId>org.springdoc</groupId>
