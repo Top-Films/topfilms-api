@@ -33,11 +33,11 @@
                 <message>
                     <pattern>
                         {
-                        "level":"%level",
-                        "class":"%logger{36}",
-                        "thread":"%thread",
-                        "message": "%message",
-                        "requestId": "%X{X-Request-ID}"
+                            "level":"%level",
+                            "class":"%logger{36}",
+                            "thread":"%thread",
+                            "message": "%message",
+                            "requestId": "%X{X-Request-ID}"
                         }
                     </pattern>
                 </message>
