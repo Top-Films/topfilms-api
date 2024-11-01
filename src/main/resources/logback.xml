@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <springProperty scope="context" name="application.name" source="spring.application.name"/>
+
     <springProfile name="local">
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
