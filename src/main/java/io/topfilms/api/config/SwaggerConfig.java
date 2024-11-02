@@ -1,29 +1,12 @@
 package io.topfilms.api.config;
 
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import org.springdoc.core.customizers.OperationCustomizer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.HandlerMethod;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
-@Configuration
-public class SwaggerConfig {
-
-    @Bean
-    public OperationCustomizer globalHeaders() {
-        return (Operation operation, HandlerMethod handlerMethod) -> {
-            Parameter authorization = new Parameter()
-                    .in(ParameterIn.HEADER.toString())
-                    .schema(new StringSchema())
-                    .name("Authorization")
-                    .description("Bearer token")
-                    .required(true);
-            operation.addParametersItem(authorization);
-            return operation;
-        };
-    }
-
-}
+@SecurityScheme(
+        name = "Authorization",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
+public class SwaggerConfig { }

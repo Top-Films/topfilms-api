@@ -1,5 +1,6 @@
 package io.topfilms.api.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.topfilms.api.entities.MovieGenre;
 import io.topfilms.api.services.moviegenre.MovieGenreService;
 import org.slf4j.Logger;
@@ -10,10 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@SecurityRequirement(name = "Authorization")
 public class MovieGenreController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MovieGenreController.class);
