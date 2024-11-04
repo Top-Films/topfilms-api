@@ -1,5 +1,4 @@
 def APP_NAME
-def CHART_NAME
 def NAMESPACE
 def URL
 
@@ -32,6 +31,8 @@ spec:
 	}
 
 	environment {
+	    CHART_NAME = 'topfilms-api-chart'
+
         GITHUB_URL = 'https://github.com/Top-Films/topfilms-api'
 
 		DOCKER_REGISTRY = 'registry-1.docker.io'
@@ -56,12 +57,10 @@ spec:
 					sh 'ls -lah'
 
                     APP_NAME = "$ENVIRONMENT" == "stage" ? "topfilms-api-stage" : "topfilms-api"
-                    CHART_NAME = "$ENVIRONMENT" == "stage" ? "topfilms-api-stage-chart" : "topfilms-api-chart"
                     NAMESPACE = "$ENVIRONMENT" == "stage" ? "topfilms-stage" : "topfilms"
                     URL = "$ENVIRONMENT" == "stage" ? "api-stage.topfilms.io" : "api.topfilms.io"
 
 					echo "APP_NAME: $APP_NAME"
-					echo "CHART_NAME: $CHART_NAME"
 					echo "NAMESPACE: $NAMESPACE"
 					echo "URL: $URL"
 				}
