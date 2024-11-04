@@ -137,8 +137,8 @@ spec:
 
 							set +e
 
-							kubectl delete secret api.topfilms.io-tls --namespace $NAMESPACE
-							kubectl create secret tls api.topfilms.io-tls --cert=cert.pem --key=key.pem --namespace $NAMESPACE
+							kubectl delete secret $URL-tls --namespace $NAMESPACE
+							kubectl create secret tls $URL-tls --cert=cert.pem --key=key.pem --namespace $NAMESPACE
 
 							set -e
 						'''
