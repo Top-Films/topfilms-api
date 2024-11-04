@@ -71,12 +71,6 @@ spec:
 		stage('Java Build') {
 			steps {
 				script {
-				    echo "-----------TEST--------------"
-                    echo "APP_NAME: $APP_NAME"
-                    echo "CHART_NAME: $CHART_NAME"
-                    echo "NAMESPACE: $NAMESPACE"
-                    echo "URL: $URL"
-
 					sh """
 						java --version
 						mvn --version
@@ -93,8 +87,9 @@ spec:
 				container('dind') {
 					script {
 						withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+						    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+
 							sh """
-							    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                                 docker buildx build --platform linux/arm64/v8 . --tag $DOCKER_USERNAME/$APP_NAME:$TAG --tag $DOCKER_USERNAME/$APP_NAME:latest --build-arg ENV=$ENVIRONMENT
 							    docker push $DOCKER_USERNAME/$APP_NAME --all-tags
                             """
@@ -108,10 +103,10 @@ spec:
 			steps {
 				script {
 					withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+					    sh 'echo "$DOCKER_PASSWORD" | helm registry login $DOCKER_REGISTRY --username $DOCKER_USERNAME --password-stdin'
+
 						sh """
 							cd helm
-
-							echo "$DOCKER_PASSWORD" | helm registry login $DOCKER_REGISTRY --username $DOCKER_USERNAME --password-stdin
 
 							helm package $APP_NAME --app-version=$TAG --version=$TAG
 							helm push ./$CHART_NAME-$TAG.tgz $DOCKER_REGISTRY_FULL/$DOCKER_USERNAME
@@ -134,9 +129,9 @@ spec:
 						file(credentialsId: 'ca-cert-private-key', variable: 'CA_CERT_PRIVATE_KEY'),
 						file(credentialsId: 'kube-config', variable: 'KUBE_CONFIG')
 					]) {
-						sh 'mkdir -p $WORKSPACE/.kube && cp $KUBE_CONFIG $WORKSPACE/.kube/config'
-
 						sh '''
+						    mkdir -p $WORKSPACE/.kube && cp $KUBE_CONFIG $WORKSPACE/.kube/config
+
 							cp $CA_CERT $WORKSPACE/cert.pem
 							cp $CA_CERT_PRIVATE_KEY $WORKSPACE/key.pem
 
@@ -162,9 +157,9 @@ spec:
                         string(credentialsId: 'postgres-jdbc-b64', variable: 'POSTGRES_JDBC_B64'),
                         file(credentialsId: 'kube-config', variable: 'KUBE_CONFIG')
                     ]) {
-                        sh 'mkdir -p $WORKSPACE/.kube && cp $KUBE_CONFIG $WORKSPACE/.kube/config'
-
                         sh '''
+                            mkdir -p $WORKSPACE/.kube && cp $KUBE_CONFIG $WORKSPACE/.kube/config
+
                             sed -i "s/<POSTGRES_JDBC_B64>/$POSTGRES_JDBC_B64/g" secret.yaml
                             sed -i "s/<POSTGRES_TOPFILMS_USERNAME_B64>/$POSTGRES_TOPFILMS_USERNAME_B64/g" secret.yaml
                             sed -i "s/<POSTGRES_TOPFILMS_PASSWORD_B64>/$POSTGRES_TOPFILMS_PASSWORD_B64/g" secret.yaml
@@ -185,11 +180,7 @@ spec:
 						usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD'),
 						file(credentialsId: 'kube-config', variable: 'KUBE_CONFIG')
 					]) {
-						sh 'mkdir -p $WORKSPACE/.kube && cp $KUBE_CONFIG $WORKSPACE/.kube/config'
-
-						sh '''
-							echo "$DOCKER_PASSWORD" | helm registry login $DOCKER_REGISTRY --username $DOCKER_USERNAME --password-stdin
-
+						sh """
 							helm upgrade $APP_NAME $DOCKER_REGISTRY_FULL/$DOCKER_USERNAME/$CHART_NAME \
 							    --version $TAG \
 							    --install \
@@ -200,7 +191,7 @@ spec:
 							    --set image.tag=$TAG \
 							    --set image.repository=$DOCKER_USERNAME/$APP_NAME \
 							    --set fullnameOverride=$APP_NAME
-						'''
+						"""
 					}
 				}
 			}
