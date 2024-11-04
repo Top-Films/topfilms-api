@@ -60,10 +60,10 @@ spec:
                     NAMESPACE = "$ENVIRONMENT" == "stage" ? "topfilms-stage" : "topfilms"
                     URL = "$ENVIRONMENT" == "stage" ? "api-stage.topfilms.io" : "api.topfilms.io"
 
-					echo "$APP_NAME"
-					echo "$CHART_NAME"
-					echo "$NAMESPACE"
-					echo "$URL"
+					echo "APP_NAME: $APP_NAME"
+					echo "CHART_NAME: $CHART_NAME"
+					echo "NAMESPACE: $NAMESPACE"
+					echo "URL: $URL"
 				}
 			}
 		}
@@ -71,6 +71,12 @@ spec:
 		stage('Java Build') {
 			steps {
 				script {
+				    echo "-----------TEST--------------"
+                    echo "APP_NAME: $APP_NAME"
+                    echo "CHART_NAME: $CHART_NAME"
+                    echo "NAMESPACE: $NAMESPACE"
+                    echo "URL: $URL"
+
 					sh """
 						java --version
 						mvn --version
@@ -87,10 +93,11 @@ spec:
 				container('dind') {
 					script {
 						withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-							sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-
-							sh 'docker buildx build --platform linux/arm64/v8 . --tag $DOCKER_USERNAME/$APP_NAME:$TAG --tag $DOCKER_USERNAME/$APP_NAME:latest --build-arg ENV=$ENVIRONMENT'
-							sh 'docker push $DOCKER_USERNAME/$APP_NAME --all-tags'
+							sh """
+							    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                                docker buildx build --platform linux/arm64/v8 . --tag $DOCKER_USERNAME/$APP_NAME:$TAG --tag $DOCKER_USERNAME/$APP_NAME:latest --build-arg ENV=$ENVIRONMENT
+							    docker push $DOCKER_USERNAME/$APP_NAME --all-tags
+                            """
 						}
 					}
 				}
@@ -101,14 +108,14 @@ spec:
 			steps {
 				script {
 					withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-						sh '''
+						sh """
 							cd helm
 
 							echo "$DOCKER_PASSWORD" | helm registry login $DOCKER_REGISTRY --username $DOCKER_USERNAME --password-stdin
 
 							helm package $APP_NAME --app-version=$TAG --version=$TAG
 							helm push ./$CHART_NAME-$TAG.tgz $DOCKER_REGISTRY_FULL/$DOCKER_USERNAME
-						'''
+						"""
 					}
 				}
 			}
