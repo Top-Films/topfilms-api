@@ -1,3 +1,8 @@
+def APP_NAME
+def CHART_NAME
+def NAMESPACE
+def URL
+
 pipeline {
 	agent {
 		kubernetes {
@@ -23,12 +28,11 @@ spec:
 	parameters {
 		string(name: 'TAG', defaultValue: params.TAG ?: '0.0.1', description: 'Git tag version', trim: true)
 		booleanParam(name: 'DEPLOY_CA_CERT', defaultValue: false, description: 'Deploy ca cert as secret to k8s')
+        choice(name: 'ENVIRONMENT', choices: ['stage', 'prod'], description: 'Where to deploy')
 	}
 
 	environment {
-		APP_NAME = 'topfilms-api'
-		CHART_NAME = 'topfilms-api-chart'
-		GITHUB_URL = 'https://github.com/Top-Films/topfilms-api'
+        GITHUB_URL = 'https://github.com/Top-Films/topfilms-api'
 
 		DOCKER_REGISTRY = 'registry-1.docker.io'
 		DOCKER_REGISTRY_FULL = "oci://${env.DOCKER_REGISTRY}"
@@ -41,7 +45,7 @@ spec:
 				script {
 					checkout scmGit(
 						branches: [[
-							name: "refs/tags/$TAG"
+							name: "$TAG"
 						]],
 						userRemoteConfigs: [[
 							credentialsId: 'github',
@@ -50,6 +54,16 @@ spec:
 					)
 
 					sh 'ls -lah'
+
+                    APP_NAME = "$ENVIRONMENT" == "stage" ? "topfilms-api-stage" : "topfilms-api"
+                    CHART_NAME = "$ENVIRONMENT" == "stage" ? "topfilms-api-stage-chart" : "topfilms-api-chart"
+                    NAMESPACE = "$ENVIRONMENT" == "stage" ? "topfilms-stage" : "topfilms"
+                    URL = "$ENVIRONMENT" == "stage" ? "api-stage.topfilms.io" : "api.topfilms.io"
+
+					echo "$APP_NAME"
+					echo "$CHART_NAME"
+					echo "$NAMESPACE"
+					echo "$URL"
 				}
 			}
 		}
@@ -75,7 +89,7 @@ spec:
 						withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
 							sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
 
-							sh 'docker buildx build --platform linux/arm64/v8 . --tag $DOCKER_USERNAME/$APP_NAME:$TAG --tag $DOCKER_USERNAME/$APP_NAME:latest'
+							sh 'docker buildx build --platform linux/arm64/v8 . --tag $DOCKER_USERNAME/$APP_NAME:$TAG --tag $DOCKER_USERNAME/$APP_NAME:latest --build-arg ENV=$ENVIRONMENT'
 							sh 'docker push $DOCKER_USERNAME/$APP_NAME --all-tags'
 						}
 					}
@@ -123,8 +137,8 @@ spec:
 
 							set +e
 
-							kubectl delete secret api.topfilms.io-tls --namespace topfilms
-							kubectl create secret tls api.topfilms.io-tls --cert=cert.pem --key=key.pem --namespace topfilms
+							kubectl delete secret api.topfilms.io-tls --namespace $NAMESPACE
+							kubectl create secret tls api.topfilms.io-tls --cert=cert.pem --key=key.pem --namespace $NAMESPACE
 
 							set -e
 						'''
@@ -151,9 +165,7 @@ spec:
                             cat secret.yaml
                         '''
 
-                        sh """
-                            kubectl apply --filename secret.yaml --namespace topfilms
-                        """
+                        sh "kubectl apply --filename secret.yaml --namespace $NAMESPACE"
                     }
                 }
             }
@@ -171,7 +183,16 @@ spec:
 						sh '''
 							echo "$DOCKER_PASSWORD" | helm registry login $DOCKER_REGISTRY --username $DOCKER_USERNAME --password-stdin
 
-							helm upgrade $APP_NAME $DOCKER_REGISTRY_FULL/$DOCKER_USERNAME/$CHART_NAME --version $TAG --install --atomic --debug --history-max=3 --namespace topfilms --set image.tag=$TAG
+							helm upgrade $APP_NAME $DOCKER_REGISTRY_FULL/$DOCKER_USERNAME/$CHART_NAME \
+							    --version $TAG \
+							    --install \
+							    --atomic \
+							    --debug \
+							    --history-max=3 \
+							    --namespace $NAMESPACE \
+							    --set image.tag=$TAG \
+							    --set image.repository=$DOCKER_USERNAME/$APP_NAME \
+							    --set fullnameOverride=$APP_NAME
 						'''
 					}
 				}
