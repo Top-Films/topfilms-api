@@ -109,7 +109,7 @@ spec:
 							cd helm
 
 							helm package $APP_NAME --app-version=$TAG --version=$TAG
-							helm push ./$CHART_NAME-$TAG.tgz $DOCKER_REGISTRY_FULL/$DOCKER_USERNAME
+							helm push ./$CHART_NAME-${TAG}.tgz $DOCKER_REGISTRY_FULL/$DOCKER_USERNAME
 						"""
 					}
 				}
