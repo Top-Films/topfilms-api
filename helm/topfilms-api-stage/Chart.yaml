@@ -1,0 +1,6 @@
+apiVersion: v2
+name: topfilms-api-stage-chart
+description: Chart for Top Films API Staging Environment
+type: application
+version: 1.0.0
+appVersion: 1.0.0

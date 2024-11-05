@@ -1,4 +1,5 @@
 def APP_NAME
+def CHART_NAME
 def NAMESPACE
 def URL
 
@@ -31,8 +32,6 @@ spec:
 	}
 
 	environment {
-	    CHART_NAME = 'topfilms-api-chart'
-
         GITHUB_URL = 'https://github.com/Top-Films/topfilms-api'
 
 		DOCKER_REGISTRY = 'registry-1.docker.io'
@@ -57,10 +56,12 @@ spec:
 					sh 'ls -lah'
 
                     APP_NAME = "$ENVIRONMENT" == "stage" ? "topfilms-api-stage" : "topfilms-api"
+                    CHART_NAME = "$ENVIRONMENT" == "stage" ? "topfilms-api-stage-chart" : "topfilms-api-chart"
                     NAMESPACE = "$ENVIRONMENT" == "stage" ? "topfilms-stage" : "topfilms"
                     URL = "$ENVIRONMENT" == "stage" ? "api-stage.topfilms.io" : "api.topfilms.io"
 
 					echo "APP_NAME: $APP_NAME"
+					echo "CHART_NAME: $CHART_NAME"
 					echo "NAMESPACE: $NAMESPACE"
 					echo "URL: $URL"
 				}
@@ -107,7 +108,7 @@ spec:
 						sh """
 							cd helm
 
-							helm package topfilms-api --app-version=$TAG --version=$TAG
+							helm package $APP_NAME --app-version=$TAG --version=$TAG
 							helm push ./$CHART_NAME-${TAG}.tgz $DOCKER_REGISTRY_FULL/$DOCKER_USERNAME
 						"""
 					}
@@ -135,14 +136,16 @@ spec:
 							cp $CA_CERT_PRIVATE_KEY $WORKSPACE/key.pem
 
 							ls -lah
+                        '''
 
+                        sh """
 							set +e
 
 							kubectl delete secret $URL-tls --namespace $NAMESPACE
 							kubectl create secret tls $URL-tls --cert=cert.pem --key=key.pem --namespace $NAMESPACE
 
 							set -e
-						'''
+                        """
 					}
 				}
 			}
@@ -187,9 +190,7 @@ spec:
 							    --debug \
 							    --history-max=3 \
 							    --namespace $NAMESPACE \
-							    --set image.tag=$TAG \
-							    --set image.repository=$DOCKER_USERNAME/$APP_NAME \
-							    --set fullnameOverride=$APP_NAME
+							    --set image.tag=$TAG
 						"""
 					}
 				}

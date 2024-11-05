@@ -1,0 +1,64 @@
+fullnameOverride: topfilms-api-stage
+
+image:
+  repository: maxmorhardt/topfilms-api-stage
+  tag: '0.0.1'
+  pullPolicy: Always
+  replicas: 1
+  revisionHistoryLimit: 2
+  env:
+    - name: DATASOURCE_URL
+      valueFrom:
+        secretKeyRef:
+          name: topfilms-api-credentials
+          key: datasource-url
+    - name: DB_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: topfilms-api-credentials
+          key: db-username
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: topfilms-api-credentials
+          key: db-password
+  readinessProbe:
+    path: /actuator/health
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 30
+    failureThreshold: 5
+    successThreshold: 1
+  livenessProbe:
+    path: /actuator/health
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 30
+    failureThreshold: 5
+    successThreshold: 1
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: api-stage.topfilms.io
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: 
+   - secretName: api-stage.topfilms.io-tls
+     hosts:
+       - api-stage.topfilms.io
+
+resources:
+  limits:
+    cpu: 750m
+    memory: 512Mi
+  requests:
+    cpu: 500m
+    memory: 256Mi
