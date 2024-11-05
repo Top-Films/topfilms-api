@@ -12,7 +12,7 @@ RUN chown -R 1000:1000 /app
 USER 1000
 EXPOSE 8080
 CMD ["java", \
-    "-Dspring.profiles.active=$ENVIRONMENT", \
+    "-Dspring.profiles.active=${ENVIRONMENT}", \
     "-Dserver.port=8080", \
     "-jar", \
     "topfilms.jar"]
