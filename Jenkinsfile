@@ -84,7 +84,7 @@ spec:
 						    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
 
 							sh """
-                                docker buildx build --platform linux/arm64/v8 . --tag $DOCKER_USERNAME/$APP_NAME:$TAG --tag $DOCKER_USERNAME/$APP_NAME:latest --build-arg ENV=$ENVIRONMENT
+                                docker buildx build --platform linux/arm64/v8 . --tag $DOCKER_USERNAME/$APP_NAME:$TAG --tag $DOCKER_USERNAME/$APP_NAME:latest
 							    docker push $DOCKER_USERNAME/$APP_NAME --all-tags
                             """
 						}
