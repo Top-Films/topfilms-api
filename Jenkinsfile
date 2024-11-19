@@ -34,7 +34,7 @@ spec:
         APP_NAME = "topfilms-api"
         CHART_NAME = "topfilms-api-chart"
         NAMESPACE = "topfilms"
-        URL = "api.topfilms.io"
+        APP_URL = "api.topfilms.io"
 	}
 
 	stages {
@@ -57,7 +57,7 @@ spec:
 					echo "APP_NAME: $APP_NAME"
 					echo "CHART_NAME: $CHART_NAME"
 					echo "NAMESPACE: $NAMESPACE"
-					echo "URL: $URL"
+					echo "APP_URL: $APP_URL"
 				}
 			}
 		}
@@ -135,8 +135,8 @@ spec:
                         sh """
 							set +e
 
-							kubectl delete secret $URL-tls --namespace $NAMESPACE
-							kubectl create secret tls $URL-tls --cert=cert.pem --key=key.pem --namespace $NAMESPACE
+							kubectl delete secret $APP_URL-tls --namespace $NAMESPACE
+							kubectl create secret tls $APP_URL-tls --cert=cert.pem --key=key.pem --namespace $NAMESPACE
 
 							set -e
                         """
