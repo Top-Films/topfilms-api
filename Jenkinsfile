@@ -1,8 +1,3 @@
-def APP_NAME
-def CHART_NAME
-def NAMESPACE
-def URL
-
 pipeline {
 	agent {
 		kubernetes {
@@ -28,7 +23,6 @@ spec:
 	parameters {
 		string(name: 'TAG', defaultValue: params.TAG ?: '0.0.1', description: 'Git tag version', trim: true)
 		booleanParam(name: 'DEPLOY_CA_CERT', defaultValue: false, description: 'Deploy ca cert as secret to k8s')
-        choice(name: 'ENVIRONMENT', choices: ['stage', 'prod'], description: 'Where to deploy')
 	}
 
 	environment {
@@ -36,6 +30,11 @@ spec:
 
 		DOCKER_REGISTRY = 'registry-1.docker.io'
 		DOCKER_REGISTRY_FULL = "oci://${env.DOCKER_REGISTRY}"
+
+        APP_NAME = "topfilms-api"
+        CHART_NAME = "topfilms-api-chart"
+        NAMESPACE = "topfilms"
+        URL = "api.topfilms.io"
 	}
 
 	stages {
@@ -54,11 +53,6 @@ spec:
 					)
 
 					sh 'ls -lah'
-
-                    APP_NAME = "$ENVIRONMENT" == "stage" ? "topfilms-api-stage" : "topfilms-api"
-                    CHART_NAME = "$ENVIRONMENT" == "stage" ? "topfilms-api-stage-chart" : "topfilms-api-chart"
-                    NAMESPACE = "$ENVIRONMENT" == "stage" ? "topfilms-stage" : "topfilms"
-                    URL = "$ENVIRONMENT" == "stage" ? "api-stage.topfilms.io" : "api.topfilms.io"
 
 					echo "APP_NAME: $APP_NAME"
 					echo "CHART_NAME: $CHART_NAME"
